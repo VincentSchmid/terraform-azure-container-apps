@@ -24,6 +24,13 @@ resource "azurerm_container_app_environment" "container_env" {
   infrastructure_subnet_id       = var.container_app_environment_infrastructure_subnet_id
   internal_load_balancer_enabled = var.container_app_environment_internal_load_balancer_enabled
   tags                           = var.container_app_environment_tags
+
+  lifecycle {
+    precodition {
+      condition     = var.container_app_environment_internal_load_balancer_enabled == null || var.container_app_environment_infrastructure_subnet_id != null
+      error_message = "`var.container_app_environment_internal_load_balancer_enabled` can only be set when `var.container_app_environment_infrastructure_subnet_id` is specified."
+    }
+  }
 }
 
 resource "azurerm_container_app_environment_dapr_component" "dapr" {
