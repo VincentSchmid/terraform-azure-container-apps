@@ -12,7 +12,8 @@ output "container_app_ips" {
   description = "The IPs of the Latest Revision of the Container App."
   value       = azurerm_container_app_environment.container_env.static_ip_address
 }
-output "container_app_ids_by_name" {
-  description = "A map of Container Apps with their names and IDs."
-  value       = { for name, container in azurerm_container_app.container_app : name => { "name" = name, "id" = container.id } }
+
+output "container_app_objects_by_name" {
+  description = "A map of Container Apps with their names and complete objects."
+  value       = { for name, container in azurerm_container_app.container_app : name => container }
 }
